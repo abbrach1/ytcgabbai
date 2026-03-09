@@ -7,8 +7,6 @@ import {
   addDoc,
   updateDoc,
   deleteDoc,
-  query,
-  orderBy,
   Timestamp,
 } from "firebase/firestore";
 
@@ -43,9 +41,9 @@ function docToMember(id: string, data: Record<string, unknown>): Member {
 }
 
 export async function getAllMembers(): Promise<Member[]> {
-  const q = query(collection(db, COLLECTION), orderBy("last_name"), orderBy("first_name"));
-  const snapshot = await getDocs(q);
-  return snapshot.docs.map((d) => docToMember(d.id, d.data()));
+  const snapshot = await getDocs(collection(db, COLLECTION));
+  const members = snapshot.docs.map((d) => docToMember(d.id, d.data()));
+  return members.sort((a, b) => a.last_name.localeCompare(b.last_name) || a.first_name.localeCompare(b.first_name));
 }
 
 export async function getMemberById(id: string): Promise<Member | undefined> {
