@@ -9,6 +9,9 @@ interface Member {
   seat_number: string;
   phone: string;
   notes: string;
+  year: string;
+  beis_medrash: string;
+  is_alumni: boolean;
 }
 
 interface MemberCardProps {
@@ -20,7 +23,7 @@ interface MemberCardProps {
 
 export default function MemberCard({ member, onEdit, onDelete, onPrint }: MemberCardProps) {
   return (
-    <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
+    <div className={`bg-white border rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow ${member.is_alumni ? "border-purple-200" : "border-gray-200"}`}>
       <div className="flex justify-between items-start mb-3">
         <div>
           <h3 className="text-lg font-semibold text-gray-900">
@@ -33,9 +36,29 @@ export default function MemberCard({ member, onEdit, onDelete, onPrint }: Member
             </p>
           )}
         </div>
-        {member.seat_number && (
-          <span className="bg-amber-100 text-amber-800 text-sm font-medium px-3 py-1 rounded-full">
-            Seat {member.seat_number}
+        <div className="flex flex-col items-end gap-1">
+          {member.is_alumni && (
+            <span className="bg-purple-100 text-purple-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
+              Alumni
+            </span>
+          )}
+          {member.seat_number && (
+            <span className="bg-amber-100 text-amber-800 text-sm font-medium px-3 py-1 rounded-full">
+              Seat {member.seat_number}
+            </span>
+          )}
+        </div>
+      </div>
+
+      <div className="flex flex-wrap gap-2 mb-2">
+        {member.year && (
+          <span className="text-xs bg-blue-50 text-blue-700 px-2 py-0.5 rounded">
+            {member.year}
+          </span>
+        )}
+        {member.beis_medrash && (
+          <span className="text-xs bg-green-50 text-green-700 px-2 py-0.5 rounded">
+            {member.beis_medrash}
           </span>
         )}
       </div>

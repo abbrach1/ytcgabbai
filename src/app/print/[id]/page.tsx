@@ -11,6 +11,9 @@ interface Member {
   seat_number: string;
   phone: string;
   notes: string;
+  year: string;
+  beis_medrash: string;
+  is_alumni: boolean;
 }
 
 export default function PrintSingleCard({ params }: { params: Promise<{ id: string }> }) {
@@ -73,7 +76,18 @@ export default function PrintSingleCard({ params }: { params: Promise<{ id: stri
                 <span className="font-semibold">Phone:</span> {member.phone}
               </div>
             )}
+            {member.year && (
+              <div>
+                <span className="font-semibold">Year:</span> {member.year}
+              </div>
+            )}
+            {member.beis_medrash && (
+              <div>
+                <span className="font-semibold">Beis Medrash:</span> {member.beis_medrash}
+              </div>
+            )}
           </div>
+          {member.is_alumni && <p className="text-sm mt-3 font-semibold text-purple-700">Alumni</p>}
           {member.notes && <p className="text-sm mt-3 text-gray-600 italic">{member.notes}</p>}
         </div>
       </div>

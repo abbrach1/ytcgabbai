@@ -10,6 +10,9 @@ interface MemberFormData {
   seat_number: string;
   phone: string;
   notes: string;
+  year: string;
+  beis_medrash: string;
+  is_alumni: boolean;
 }
 
 interface MemberFormProps {
@@ -27,6 +30,9 @@ const emptyForm: MemberFormData = {
   seat_number: "",
   phone: "",
   notes: "",
+  year: "",
+  beis_medrash: "",
+  is_alumni: false,
 };
 
 export default function MemberForm({ initialData, onSubmit, onCancel, submitLabel = "Save" }: MemberFormProps) {
@@ -37,7 +43,7 @@ export default function MemberForm({ initialData, onSubmit, onCancel, submitLabe
     onSubmit(form);
   };
 
-  const set = (field: keyof MemberFormData, value: string) => setForm((f) => ({ ...f, [field]: value }));
+  const set = (field: keyof MemberFormData, value: string | boolean) => setForm((f) => ({ ...f, [field]: value }));
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -83,6 +89,26 @@ export default function MemberForm({ initialData, onSubmit, onCancel, submitLabe
           />
         </div>
         <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Year</label>
+          <input
+            type="text"
+            placeholder="e.g. 2024-2025"
+            value={form.year}
+            onChange={(e) => set("year", e.target.value)}
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Beis Medrash</label>
+          <input
+            type="text"
+            placeholder="e.g. Main, Upstairs, BM Aleph"
+            value={form.beis_medrash}
+            onChange={(e) => set("beis_medrash", e.target.value)}
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          />
+        </div>
+        <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Seat Number</label>
           <input
             type="text"
@@ -109,6 +135,16 @@ export default function MemberForm({ initialData, onSubmit, onCancel, submitLabe
           rows={3}
           className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         />
+      </div>
+      <div className="flex items-center gap-2">
+        <input
+          type="checkbox"
+          id="is_alumni"
+          checked={form.is_alumni}
+          onChange={(e) => set("is_alumni", e.target.checked)}
+          className="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+        />
+        <label htmlFor="is_alumni" className="text-sm font-medium text-gray-700">Alumni</label>
       </div>
       <div className="flex gap-3 justify-end">
         <button type="button" onClick={onCancel} className="px-4 py-2 text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200">

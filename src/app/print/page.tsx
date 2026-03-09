@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
 interface Member {
   id: string;
@@ -11,16 +13,33 @@ interface Member {
   seat_number: string;
   phone: string;
   notes: string;
+  year: string;
+  beis_medrash: string;
+  is_alumni: boolean;
 }
 
-export default function PrintAllCards() {
+function PrintContent() {
+  const searchParams = useSearchParams();
   const [members, setMembers] = useState<Member[]>([]);
 
   useEffect(() => {
     fetch("/api/members")
       .then((res) => res.json())
-      .then(setMembers);
-  }, []);
+      .then((data: Member[]) => {
+        const yearFilter = searchParams.get("year");
+        const bmFilter = searchParams.get("bm");
+        const alumniFilter = searchParams.get("alumni");
+
+        const filtered = data.filter((m) => {
+          if (yearFilter && m.year !== yearFilter) return false;
+          if (bmFilter && m.beis_medrash !== bmFilter) return false;
+          if (alumniFilter === "current" && m.is_alumni) return false;
+          if (alumniFilter === "alumni" && !m.is_alumni) return false;
+          return true;
+        });
+        setMembers(filtered);
+      });
+  }, [searchParams]);
 
   useEffect(() => {
     if (members.length > 0) {
@@ -28,6 +47,52 @@ export default function PrintAllCards() {
     }
   }, [members]);
 
+  return (
+    <div className="grid grid-cols-2 gap-4 p-8">
+      {members.map((member) => (
+        <div key={member.id} className="card border-2 border-gray-800 rounded-lg p-6">
+          <div className="text-center border-b-2 border-gray-300 pb-3 mb-3">
+            <h2 className="text-xl font-bold">
+              {member.first_name} {member.last_name}
+            </h2>
+            {member.hebrew_name && (
+              <p className="text-lg mt-1" dir="rtl">
+                {member.hebrew_name}
+                {member.father_name && <span> בן {member.father_name}</span>}
+              </p>
+            )}
+          </div>
+          <div className="grid grid-cols-2 gap-2 text-sm">
+            {member.seat_number && (
+              <div>
+                <span className="font-semibold">Seat:</span> {member.seat_number}
+              </div>
+            )}
+            {member.phone && (
+              <div>
+                <span className="font-semibold">Phone:</span> {member.phone}
+              </div>
+            )}
+            {member.year && (
+              <div>
+                <span className="font-semibold">Year:</span> {member.year}
+              </div>
+            )}
+            {member.beis_medrash && (
+              <div>
+                <span className="font-semibold">BM:</span> {member.beis_medrash}
+              </div>
+            )}
+          </div>
+          {member.is_alumni && <p className="text-xs mt-2 font-semibold text-purple-700">Alumni</p>}
+          {member.notes && <p className="text-sm mt-2 text-gray-600 italic">{member.notes}</p>}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export default function PrintAllCards() {
   return (
     <>
       <style jsx global>{`
@@ -47,36 +112,9 @@ export default function PrintAllCards() {
         </button>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 p-8">
-        {members.map((member) => (
-          <div key={member.id} className="card border-2 border-gray-800 rounded-lg p-6">
-            <div className="text-center border-b-2 border-gray-300 pb-3 mb-3">
-              <h2 className="text-xl font-bold">
-                {member.first_name} {member.last_name}
-              </h2>
-              {member.hebrew_name && (
-                <p className="text-lg mt-1" dir="rtl">
-                  {member.hebrew_name}
-                  {member.father_name && <span> בן {member.father_name}</span>}
-                </p>
-              )}
-            </div>
-            <div className="grid grid-cols-2 gap-2 text-sm">
-              {member.seat_number && (
-                <div>
-                  <span className="font-semibold">Seat:</span> {member.seat_number}
-                </div>
-              )}
-              {member.phone && (
-                <div>
-                  <span className="font-semibold">Phone:</span> {member.phone}
-                </div>
-              )}
-            </div>
-            {member.notes && <p className="text-sm mt-2 text-gray-600 italic">{member.notes}</p>}
-          </div>
-        ))}
-      </div>
+      <Suspense fallback={<p className="text-center py-12">Loading...</p>}>
+        <PrintContent />
+      </Suspense>
     </>
   );
 }
