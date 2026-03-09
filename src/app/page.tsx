@@ -5,7 +5,7 @@ import MemberCard from "@/components/MemberCard";
 import MemberForm from "@/components/MemberForm";
 
 interface Member {
-  id: number;
+  id: string;
   first_name: string;
   last_name: string;
   hebrew_name: string;
@@ -58,13 +58,13 @@ export default function Dashboard() {
     fetchMembers();
   };
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (id: string) => {
     if (!confirm("Are you sure you want to delete this member?")) return;
     await fetch(`/api/members/${id}`, { method: "DELETE" });
     fetchMembers();
   };
 
-  const handlePrint = (id: number) => {
+  const handlePrint = (id: string) => {
     window.open(`/print/${id}`, "_blank");
   };
 

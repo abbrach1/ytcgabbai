@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 
 interface Member {
-  id: number;
+  id: string;
   first_name: string;
   last_name: string;
   hebrew_name: string;

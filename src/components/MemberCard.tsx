@@ -1,7 +1,7 @@
 "use client";
 
 interface Member {
-  id: number;
+  id: string;
   first_name: string;
   last_name: string;
   hebrew_name: string;
@@ -14,8 +14,8 @@ interface Member {
 interface MemberCardProps {
   member: Member;
   onEdit: (member: Member) => void;
-  onDelete: (id: number) => void;
-  onPrint: (id: number) => void;
+  onDelete: (id: string) => void;
+  onPrint: (id: string) => void;
 }
 
 export default function MemberCard({ member, onEdit, onDelete, onPrint }: MemberCardProps) {
