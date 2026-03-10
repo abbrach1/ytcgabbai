@@ -10,8 +10,6 @@ interface Member {
   last_name: string;
   hebrew_name: string;
   father_name: string;
-  seat_number: string;
-  phone: string;
   notes: string;
   year_beis_medrash: string;
   is_alumni: boolean;
@@ -192,8 +190,6 @@ export default function Dashboard() {
                         last_name: editing.last_name,
                         hebrew_name: editing.hebrew_name,
                         father_name: editing.father_name,
-                        seat_number: editing.seat_number,
-                        phone: editing.phone,
                         notes: editing.notes,
                         year_beis_medrash: editing.year_beis_medrash,
                         is_alumni: editing.is_alumni,

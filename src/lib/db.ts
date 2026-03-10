@@ -18,8 +18,6 @@ export interface Member {
   last_name: string;
   hebrew_name: string;
   father_name: string;
-  seat_number: string;
-  phone: string;
   notes: string;
   year_beis_medrash: string;
   is_alumni: boolean;
@@ -34,8 +32,6 @@ function docToMember(id: string, data: Record<string, unknown>): Member {
     last_name: (data.last_name as string) || "",
     hebrew_name: (data.hebrew_name as string) || "",
     father_name: (data.father_name as string) || "",
-    seat_number: (data.seat_number as string) || "",
-    phone: (data.phone as string) || "",
     notes: (data.notes as string) || "",
     year_beis_medrash: (data.year_beis_medrash as string) || "",
     is_alumni: (data.is_alumni as boolean) || false,
@@ -91,7 +87,6 @@ export async function searchMembers(queryStr: string): Promise<Member[]> {
       m.first_name.toLowerCase().includes(lower) ||
       m.last_name.toLowerCase().includes(lower) ||
       m.hebrew_name.includes(queryStr) ||
-      m.seat_number.toLowerCase().includes(lower) ||
       m.year_beis_medrash.toLowerCase().includes(lower)
   );
 }

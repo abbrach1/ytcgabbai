@@ -23,8 +23,6 @@ export async function POST(request: NextRequest) {
       last_name: body.last_name,
       hebrew_name: body.hebrew_name || "",
       father_name: body.father_name || "",
-      seat_number: body.seat_number || "",
-      phone: body.phone || "",
       notes: body.notes || "",
       year_beis_medrash: body.year_beis_medrash || "",
       is_alumni: body.is_alumni || false,

@@ -7,8 +7,6 @@ interface MemberFormData {
   last_name: string;
   hebrew_name: string;
   father_name: string;
-  seat_number: string;
-  phone: string;
   notes: string;
   year_beis_medrash: string;
   is_alumni: boolean;
@@ -26,8 +24,6 @@ const emptyForm: MemberFormData = {
   last_name: "",
   hebrew_name: "",
   father_name: "",
-  seat_number: "",
-  phone: "",
   notes: "",
   year_beis_medrash: "",
   is_alumni: false,
@@ -67,14 +63,6 @@ export default function MemberForm({ initialData, onSubmit, onCancel, submitLabe
         <div>
           <label className="block text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1">Year / Beis Medrash</label>
           <input type="text" placeholder="e.g. 5785 BM Aleph" value={form.year_beis_medrash} onChange={(e) => set("year_beis_medrash", e.target.value)} className={field} style={{ colorScheme: "light" }} />
-        </div>
-        <div>
-          <label className="block text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1">Seat #</label>
-          <input type="text" value={form.seat_number} onChange={(e) => set("seat_number", e.target.value)} className={field} style={{ colorScheme: "light" }} />
-        </div>
-        <div>
-          <label className="block text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1">Phone</label>
-          <input type="tel" value={form.phone} onChange={(e) => set("phone", e.target.value)} className={field} style={{ colorScheme: "light" }} />
         </div>
       </div>
       <div className="mb-3">

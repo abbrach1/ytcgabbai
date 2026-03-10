@@ -6,8 +6,6 @@ interface Member {
   last_name: string;
   hebrew_name: string;
   father_name: string;
-  seat_number: string;
-  phone: string;
   notes: string;
   year_beis_medrash: string;
   is_alumni: boolean;
@@ -43,23 +41,12 @@ export default function MemberCard({ member, onEdit, onDelete, onPrint }: Member
               </p>
             )}
           </div>
-          {member.seat_number && (
-            <div className="shrink-0 text-center" style={{ minWidth: "42px" }}>
-              <div className="text-xs text-gray-400 uppercase tracking-wide leading-none mb-0.5">Seat</div>
-              <div className="font-bold text-gray-900" style={{ fontSize: "1.1rem" }}>{member.seat_number}</div>
-            </div>
-          )}
         </div>
 
         <div className="mt-2 space-y-1">
           {member.year_beis_medrash && (
             <p className="text-xs text-gray-500">
               <span className="font-medium text-gray-700">Year / BM:</span> {member.year_beis_medrash}
-            </p>
-          )}
-          {member.phone && (
-            <p className="text-xs text-gray-500">
-              <span className="font-medium text-gray-700">Phone:</span> {member.phone}
             </p>
           )}
           {member.notes && (
