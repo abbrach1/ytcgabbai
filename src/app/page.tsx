@@ -13,8 +13,7 @@ interface Member {
   seat_number: string;
   phone: string;
   notes: string;
-  year: string;
-  beis_medrash: string;
+  year_beis_medrash: string;
   is_alumni: boolean;
   created_at: string;
   updated_at: string;
@@ -26,8 +25,7 @@ export default function Dashboard() {
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState<Member | null>(null);
   const [loading, setLoading] = useState(true);
-  const [filterYear, setFilterYear] = useState("");
-  const [filterBM, setFilterBM] = useState("");
+  const [filterYBM, setFilterYBM] = useState("");
   const [showAlumni, setShowAlumni] = useState<"all" | "current" | "alumni">("all");
 
   const fetchMembers = useCallback(async () => {
@@ -43,25 +41,19 @@ export default function Dashboard() {
     fetchMembers();
   }, [fetchMembers]);
 
-  const years = useMemo(() => {
-    const set = new Set(members.map((m) => m.year).filter(Boolean));
-    return Array.from(set).sort();
-  }, [members]);
-
-  const beisOptions = useMemo(() => {
-    const set = new Set(members.map((m) => m.beis_medrash).filter(Boolean));
+  const ybmOptions = useMemo(() => {
+    const set = new Set(members.map((m) => m.year_beis_medrash).filter(Boolean));
     return Array.from(set).sort();
   }, [members]);
 
   const filtered = useMemo(() => {
     return members.filter((m) => {
-      if (filterYear && m.year !== filterYear) return false;
-      if (filterBM && m.beis_medrash !== filterBM) return false;
+      if (filterYBM && m.year_beis_medrash !== filterYBM) return false;
       if (showAlumni === "current" && m.is_alumni) return false;
       if (showAlumni === "alumni" && !m.is_alumni) return false;
       return true;
     });
-  }, [members, filterYear, filterBM, showAlumni]);
+  }, [members, filterYBM, showAlumni]);
 
   const handleCreate = async (data: Omit<Member, "id" | "created_at" | "updated_at">) => {
     await fetch("/api/members", {
@@ -96,8 +88,7 @@ export default function Dashboard() {
 
   const handlePrintAll = () => {
     const params = new URLSearchParams();
-    if (filterYear) params.set("year", filterYear);
-    if (filterBM) params.set("bm", filterBM);
+    if (filterYBM) params.set("ybm", filterYBM);
     if (showAlumni !== "all") params.set("alumni", showAlumni);
     const qs = params.toString();
     window.open(`/print${qs ? `?${qs}` : ""}`, "_blank");
@@ -109,7 +100,7 @@ export default function Dashboard() {
         <div className="max-w-7xl mx-auto px-4 py-5 sm:px-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Gabbai Dashboard</h1>
+              <h1 className="text-2xl font-bold text-gray-900">Toras Chaim Gabbai System</h1>
               <p className="text-sm text-gray-500 mt-1">
                 {filtered.length} member{filtered.length !== 1 ? "s" : ""}
                 {filtered.length !== members.length && ` (of ${members.length} total)`}
@@ -143,36 +134,26 @@ export default function Dashboard() {
             <div className="flex-1">
               <input
                 type="text"
-                placeholder="Search by name, Hebrew name, seat, year, or beis medrash..."
+                placeholder="Search by name, Hebrew name, seat, or year/BM..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full bg-gray-50 border-2 border-gray-200 rounded-lg px-4 py-2.5 text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white"
+                className="w-full bg-white text-gray-900 border-2 border-gray-300 rounded-lg px-4 py-2.5 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <select
-              value={filterYear}
-              onChange={(e) => setFilterYear(e.target.value)}
-              className="bg-gray-50 border-2 border-gray-200 rounded-lg px-3 py-2.5 text-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              value={filterYBM}
+              onChange={(e) => setFilterYBM(e.target.value)}
+              className="bg-white text-gray-900 border-2 border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             >
-              <option value="">All Years</option>
-              {years.map((y) => (
+              <option value="">All Year / Beis Medrash</option>
+              {ybmOptions.map((y) => (
                 <option key={y} value={y}>{y}</option>
-              ))}
-            </select>
-            <select
-              value={filterBM}
-              onChange={(e) => setFilterBM(e.target.value)}
-              className="bg-gray-50 border-2 border-gray-200 rounded-lg px-3 py-2.5 text-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            >
-              <option value="">All Beis Medrash</option>
-              {beisOptions.map((b) => (
-                <option key={b} value={b}>{b}</option>
               ))}
             </select>
             <select
               value={showAlumni}
               onChange={(e) => setShowAlumni(e.target.value as "all" | "current" | "alumni")}
-              className="bg-gray-50 border-2 border-gray-200 rounded-lg px-3 py-2.5 text-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="bg-white text-gray-900 border-2 border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             >
               <option value="all">All Members</option>
               <option value="current">Current Only</option>
@@ -184,7 +165,7 @@ export default function Dashboard() {
         {/* Add / Edit Form */}
         {(showForm || editing) && (
           <div className="bg-white border border-gray-200 rounded-xl p-6 mb-6 shadow-sm">
-            <h2 className="text-lg font-semibold mb-4">{editing ? "Edit Member" : "Add New Member"}</h2>
+            <h2 className="text-lg font-semibold text-gray-900 mb-4">{editing ? "Edit Member" : "Add New Member"}</h2>
             <MemberForm
               initialData={
                 editing
@@ -196,8 +177,7 @@ export default function Dashboard() {
                       seat_number: editing.seat_number,
                       phone: editing.phone,
                       notes: editing.notes,
-                      year: editing.year,
-                      beis_medrash: editing.beis_medrash,
+                      year_beis_medrash: editing.year_beis_medrash,
                       is_alumni: editing.is_alumni,
                     }
                   : undefined

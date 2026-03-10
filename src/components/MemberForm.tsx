@@ -10,8 +10,7 @@ interface MemberFormData {
   seat_number: string;
   phone: string;
   notes: string;
-  year: string;
-  beis_medrash: string;
+  year_beis_medrash: string;
   is_alumni: boolean;
 }
 
@@ -30,10 +29,11 @@ const emptyForm: MemberFormData = {
   seat_number: "",
   phone: "",
   notes: "",
-  year: "",
-  beis_medrash: "",
+  year_beis_medrash: "",
   is_alumni: false,
 };
+
+const inputClass = "w-full bg-white text-gray-900 border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400";
 
 export default function MemberForm({ initialData, onSubmit, onCancel, submitLabel = "Save" }: MemberFormProps) {
   const [form, setForm] = useState<MemberFormData>(initialData || emptyForm);
@@ -50,91 +50,36 @@ export default function MemberForm({ initialData, onSubmit, onCancel, submitLabe
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">First Name *</label>
-          <input
-            type="text"
-            required
-            value={form.first_name}
-            onChange={(e) => set("first_name", e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          />
+          <input type="text" required value={form.first_name} onChange={(e) => set("first_name", e.target.value)} className={inputClass} />
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Last Name *</label>
-          <input
-            type="text"
-            required
-            value={form.last_name}
-            onChange={(e) => set("last_name", e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          />
+          <input type="text" required value={form.last_name} onChange={(e) => set("last_name", e.target.value)} className={inputClass} />
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Hebrew Name</label>
-          <input
-            type="text"
-            dir="rtl"
-            value={form.hebrew_name}
-            onChange={(e) => set("hebrew_name", e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          />
+          <input type="text" dir="rtl" value={form.hebrew_name} onChange={(e) => set("hebrew_name", e.target.value)} className={inputClass} />
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Father&apos;s Name (ben/bat)</label>
-          <input
-            type="text"
-            dir="rtl"
-            value={form.father_name}
-            onChange={(e) => set("father_name", e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          />
+          <input type="text" dir="rtl" value={form.father_name} onChange={(e) => set("father_name", e.target.value)} className={inputClass} />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Year</label>
-          <input
-            type="text"
-            placeholder="e.g. 2024-2025"
-            value={form.year}
-            onChange={(e) => set("year", e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Beis Medrash</label>
-          <input
-            type="text"
-            placeholder="e.g. Main, Upstairs, BM Aleph"
-            value={form.beis_medrash}
-            onChange={(e) => set("beis_medrash", e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          />
+          <label className="block text-sm font-medium text-gray-700 mb-1">Year / Beis Medrash</label>
+          <input type="text" placeholder="e.g. 5785 BM Aleph, 2024 Main" value={form.year_beis_medrash} onChange={(e) => set("year_beis_medrash", e.target.value)} className={inputClass} />
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Seat Number</label>
-          <input
-            type="text"
-            value={form.seat_number}
-            onChange={(e) => set("seat_number", e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          />
+          <input type="text" value={form.seat_number} onChange={(e) => set("seat_number", e.target.value)} className={inputClass} />
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
-          <input
-            type="tel"
-            value={form.phone}
-            onChange={(e) => set("phone", e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          />
+          <input type="tel" value={form.phone} onChange={(e) => set("phone", e.target.value)} className={inputClass} />
         </div>
       </div>
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">Notes</label>
-        <textarea
-          value={form.notes}
-          onChange={(e) => set("notes", e.target.value)}
-          rows={3}
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-        />
+        <textarea value={form.notes} onChange={(e) => set("notes", e.target.value)} rows={3} className={inputClass} />
       </div>
       <div className="flex items-center gap-2">
         <input

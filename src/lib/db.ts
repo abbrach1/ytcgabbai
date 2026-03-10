@@ -21,8 +21,7 @@ export interface Member {
   seat_number: string;
   phone: string;
   notes: string;
-  year: string;
-  beis_medrash: string;
+  year_beis_medrash: string;
   is_alumni: boolean;
   created_at: string;
   updated_at: string;
@@ -38,8 +37,7 @@ function docToMember(id: string, data: Record<string, unknown>): Member {
     seat_number: (data.seat_number as string) || "",
     phone: (data.phone as string) || "",
     notes: (data.notes as string) || "",
-    year: (data.year as string) || "",
-    beis_medrash: (data.beis_medrash as string) || "",
+    year_beis_medrash: (data.year_beis_medrash as string) || "",
     is_alumni: (data.is_alumni as boolean) || false,
     created_at: data.created_at instanceof Timestamp ? data.created_at.toDate().toISOString() : (data.created_at as string) || "",
     updated_at: data.updated_at instanceof Timestamp ? data.updated_at.toDate().toISOString() : (data.updated_at as string) || "",
@@ -94,7 +92,6 @@ export async function searchMembers(queryStr: string): Promise<Member[]> {
       m.last_name.toLowerCase().includes(lower) ||
       m.hebrew_name.includes(queryStr) ||
       m.seat_number.toLowerCase().includes(lower) ||
-      m.year.toLowerCase().includes(lower) ||
-      m.beis_medrash.toLowerCase().includes(lower)
+      m.year_beis_medrash.toLowerCase().includes(lower)
   );
 }

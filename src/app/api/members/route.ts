@@ -26,8 +26,7 @@ export async function POST(request: NextRequest) {
       seat_number: body.seat_number || "",
       phone: body.phone || "",
       notes: body.notes || "",
-      year: body.year || "",
-      beis_medrash: body.beis_medrash || "",
+      year_beis_medrash: body.year_beis_medrash || "",
       is_alumni: body.is_alumni || false,
     });
     return NextResponse.json(member, { status: 201 });

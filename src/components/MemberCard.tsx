@@ -9,8 +9,7 @@ interface Member {
   seat_number: string;
   phone: string;
   notes: string;
-  year: string;
-  beis_medrash: string;
+  year_beis_medrash: string;
   is_alumni: boolean;
 }
 
@@ -50,18 +49,13 @@ export default function MemberCard({ member, onEdit, onDelete, onPrint }: Member
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-2 mb-2">
-        {member.year && (
+      {member.year_beis_medrash && (
+        <div className="mb-2">
           <span className="text-xs bg-blue-50 text-blue-700 px-2 py-0.5 rounded">
-            {member.year}
+            {member.year_beis_medrash}
           </span>
-        )}
-        {member.beis_medrash && (
-          <span className="text-xs bg-green-50 text-green-700 px-2 py-0.5 rounded">
-            {member.beis_medrash}
-          </span>
-        )}
-      </div>
+        </div>
+      )}
 
       {member.phone && (
         <p className="text-sm text-gray-500 mb-1">
