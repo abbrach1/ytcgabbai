@@ -33,7 +33,7 @@ const emptyForm: MemberFormData = {
   is_alumni: false,
 };
 
-const inputClass = "w-full bg-white text-gray-900 border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400";
+const field = "w-full px-3 py-2 text-sm border border-gray-300 bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:border-blue-800";
 
 export default function MemberForm({ initialData, onSubmit, onCancel, submitLabel = "Save" }: MemberFormProps) {
   const [form, setForm] = useState<MemberFormData>(initialData || emptyForm);
@@ -43,61 +43,70 @@ export default function MemberForm({ initialData, onSubmit, onCancel, submitLabe
     onSubmit(form);
   };
 
-  const set = (field: keyof MemberFormData, value: string | boolean) => setForm((f) => ({ ...f, [field]: value }));
+  const set = (key: keyof MemberFormData, value: string | boolean) => setForm((f) => ({ ...f, [key]: value }));
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <form onSubmit={handleSubmit}>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">First Name *</label>
-          <input type="text" required value={form.first_name} onChange={(e) => set("first_name", e.target.value)} className={inputClass} />
+          <label className="block text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1">First Name *</label>
+          <input type="text" required value={form.first_name} onChange={(e) => set("first_name", e.target.value)} className={field} style={{ colorScheme: "light" }} />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Last Name *</label>
-          <input type="text" required value={form.last_name} onChange={(e) => set("last_name", e.target.value)} className={inputClass} />
+          <label className="block text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1">Last Name *</label>
+          <input type="text" required value={form.last_name} onChange={(e) => set("last_name", e.target.value)} className={field} style={{ colorScheme: "light" }} />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Hebrew Name</label>
-          <input type="text" dir="rtl" value={form.hebrew_name} onChange={(e) => set("hebrew_name", e.target.value)} className={inputClass} />
+          <label className="block text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1">Hebrew Name</label>
+          <input type="text" dir="rtl" value={form.hebrew_name} onChange={(e) => set("hebrew_name", e.target.value)} className={field} style={{ colorScheme: "light" }} />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Father&apos;s Name (ben/bat)</label>
-          <input type="text" dir="rtl" value={form.father_name} onChange={(e) => set("father_name", e.target.value)} className={inputClass} />
+          <label className="block text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1">Father&apos;s Name</label>
+          <input type="text" dir="rtl" value={form.father_name} onChange={(e) => set("father_name", e.target.value)} className={field} style={{ colorScheme: "light" }} />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Year / Beis Medrash</label>
-          <input type="text" placeholder="e.g. 5785 BM Aleph, 2024 Main" value={form.year_beis_medrash} onChange={(e) => set("year_beis_medrash", e.target.value)} className={inputClass} />
+          <label className="block text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1">Year / Beis Medrash</label>
+          <input type="text" placeholder="e.g. 5785 BM Aleph" value={form.year_beis_medrash} onChange={(e) => set("year_beis_medrash", e.target.value)} className={field} style={{ colorScheme: "light" }} />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Seat Number</label>
-          <input type="text" value={form.seat_number} onChange={(e) => set("seat_number", e.target.value)} className={inputClass} />
+          <label className="block text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1">Seat #</label>
+          <input type="text" value={form.seat_number} onChange={(e) => set("seat_number", e.target.value)} className={field} style={{ colorScheme: "light" }} />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
-          <input type="tel" value={form.phone} onChange={(e) => set("phone", e.target.value)} className={inputClass} />
+          <label className="block text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1">Phone</label>
+          <input type="tel" value={form.phone} onChange={(e) => set("phone", e.target.value)} className={field} style={{ colorScheme: "light" }} />
         </div>
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Notes</label>
-        <textarea value={form.notes} onChange={(e) => set("notes", e.target.value)} rows={3} className={inputClass} />
+      <div className="mb-3">
+        <label className="block text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1">Notes</label>
+        <textarea value={form.notes} onChange={(e) => set("notes", e.target.value)} rows={2} className={field} style={{ colorScheme: "light", resize: "vertical" }} />
       </div>
-      <div className="flex items-center gap-2">
-        <input
-          type="checkbox"
-          id="is_alumni"
-          checked={form.is_alumni}
-          onChange={(e) => set("is_alumni", e.target.checked)}
-          className="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
-        />
-        <label htmlFor="is_alumni" className="text-sm font-medium text-gray-700">Alumni</label>
-      </div>
-      <div className="flex gap-3 justify-end">
-        <button type="button" onClick={onCancel} className="px-4 py-2 text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200">
-          Cancel
-        </button>
-        <button type="submit" className="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700">
-          {submitLabel}
-        </button>
+      <div className="flex items-center justify-between">
+        <label className="flex items-center gap-2 cursor-pointer select-none">
+          <input
+            type="checkbox"
+            checked={form.is_alumni}
+            onChange={(e) => set("is_alumni", e.target.checked)}
+            className="w-4 h-4 accent-purple-700"
+          />
+          <span className="text-sm text-gray-600">Mark as Alumni</span>
+        </label>
+        <div className="flex gap-2">
+          <button
+            type="button"
+            onClick={onCancel}
+            className="px-4 py-1.5 text-sm text-gray-600 border border-gray-300 hover:bg-gray-50"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className="px-4 py-1.5 text-sm font-semibold text-white"
+            style={{ background: "#1c3a5e" }}
+          >
+            {submitLabel}
+          </button>
+        </div>
       </div>
     </form>
   );

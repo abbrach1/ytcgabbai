@@ -22,56 +22,79 @@ interface MemberCardProps {
 
 export default function MemberCard({ member, onEdit, onDelete, onPrint }: MemberCardProps) {
   return (
-    <div className={`bg-white border rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow ${member.is_alumni ? "border-purple-200" : "border-gray-200"}`}>
-      <div className="flex justify-between items-start mb-3">
-        <div>
-          <h3 className="text-lg font-semibold text-gray-900">
-            {member.first_name} {member.last_name}
-          </h3>
-          {member.hebrew_name && (
-            <p className="text-base text-gray-600" dir="rtl">
-              {member.hebrew_name}
-              {member.father_name && <span> בן {member.father_name}</span>}
+    <div
+      className="bg-white flex flex-col"
+      style={{
+        border: "1px solid #d4cfc5",
+        borderTop: member.is_alumni ? "3px solid #7c3aed" : "3px solid #1c3a5e",
+      }}
+    >
+      {/* Card body */}
+      <div className="px-4 pt-3 pb-2 flex-1">
+        <div className="flex justify-between items-start gap-2">
+          <div className="min-w-0">
+            <h3 className="font-bold text-gray-900 leading-tight" style={{ fontSize: "1rem" }}>
+              {member.first_name} {member.last_name}
+            </h3>
+            {member.hebrew_name && (
+              <p className="text-sm text-gray-600 mt-0.5" dir="rtl">
+                {member.hebrew_name}
+                {member.father_name && <span className="text-gray-500"> בן {member.father_name}</span>}
+              </p>
+            )}
+          </div>
+          {member.seat_number && (
+            <div className="shrink-0 text-center" style={{ minWidth: "42px" }}>
+              <div className="text-xs text-gray-400 uppercase tracking-wide leading-none mb-0.5">Seat</div>
+              <div className="font-bold text-gray-900" style={{ fontSize: "1.1rem" }}>{member.seat_number}</div>
+            </div>
+          )}
+        </div>
+
+        <div className="mt-2 space-y-1">
+          {member.year_beis_medrash && (
+            <p className="text-xs text-gray-500">
+              <span className="font-medium text-gray-700">Year / BM:</span> {member.year_beis_medrash}
             </p>
           )}
-        </div>
-        <div className="flex flex-col items-end gap-1">
-          {member.is_alumni && (
-            <span className="bg-purple-100 text-purple-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
-              Alumni
-            </span>
+          {member.phone && (
+            <p className="text-xs text-gray-500">
+              <span className="font-medium text-gray-700">Phone:</span> {member.phone}
+            </p>
           )}
-          {member.seat_number && (
-            <span className="bg-amber-100 text-amber-800 text-sm font-medium px-3 py-1 rounded-full">
-              Seat {member.seat_number}
-            </span>
+          {member.notes && (
+            <p className="text-xs text-gray-400 italic truncate">{member.notes}</p>
           )}
         </div>
+
+        {member.is_alumni && (
+          <span className="inline-block mt-2 text-xs font-medium px-2 py-0.5" style={{ background: "#f3e8ff", color: "#6b21a8" }}>
+            Alumni
+          </span>
+        )}
       </div>
 
-      {member.year_beis_medrash && (
-        <div className="mb-2">
-          <span className="text-xs bg-blue-50 text-blue-700 px-2 py-0.5 rounded">
-            {member.year_beis_medrash}
-          </span>
-        </div>
-      )}
-
-      {member.phone && (
-        <p className="text-sm text-gray-500 mb-1">
-          <span className="font-medium">Phone:</span> {member.phone}
-        </p>
-      )}
-      {member.notes && <p className="text-sm text-gray-500 mb-3 italic">{member.notes}</p>}
-
-      <div className="flex gap-2 mt-4 pt-3 border-t border-gray-100">
-        <button onClick={() => onEdit(member)} className="text-sm px-3 py-1.5 text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100">
+      {/* Actions */}
+      <div className="flex border-t" style={{ borderColor: "#e8e4dc" }}>
+        <button
+          onClick={() => onEdit(member)}
+          className="flex-1 py-1.5 text-xs font-medium text-gray-600 hover:bg-gray-50 border-r"
+          style={{ borderColor: "#e8e4dc" }}
+        >
           Edit
         </button>
-        <button onClick={() => onPrint(member.id)} className="text-sm px-3 py-1.5 text-green-600 bg-green-50 rounded-lg hover:bg-green-100">
-          Print Card
+        <button
+          onClick={() => onPrint(member.id)}
+          className="flex-1 py-1.5 text-xs font-medium hover:bg-blue-50"
+          style={{ color: "#1c3a5e" }}
+        >
+          Print
         </button>
-        <button onClick={() => onDelete(member.id)} className="text-sm px-3 py-1.5 text-red-600 bg-red-50 rounded-lg hover:bg-red-100 ml-auto">
+        <button
+          onClick={() => onDelete(member.id)}
+          className="flex-1 py-1.5 text-xs font-medium text-red-500 hover:bg-red-50 border-l"
+          style={{ borderColor: "#e8e4dc" }}
+        >
           Delete
         </button>
       </div>

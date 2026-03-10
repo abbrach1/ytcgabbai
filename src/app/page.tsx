@@ -95,30 +95,42 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white border-b border-gray-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 py-5 sm:px-6">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div className="min-h-screen" style={{ background: "#f5f4f0" }}>
+      {/* Header */}
+      <header style={{ background: "#1c3a5e", borderBottom: "3px solid #c8a84b" }}>
+        <div className="max-w-6xl mx-auto px-5 py-4">
+          <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Toras Chaim Gabbai System</h1>
-              <p className="text-sm text-gray-500 mt-1">
-                {filtered.length} member{filtered.length !== 1 ? "s" : ""}
-                {filtered.length !== members.length && ` (of ${members.length} total)`}
-              </p>
+              <div className="flex items-center gap-3">
+                <div>
+                  <h1 className="text-xl font-bold tracking-wide" style={{ color: "#c8a84b", letterSpacing: "0.05em" }}>
+                    תורת חיים
+                  </h1>
+                  <p className="text-xs font-medium uppercase tracking-widest" style={{ color: "#8fb3d4", letterSpacing: "0.15em" }}>
+                    Gabbai System
+                  </p>
+                </div>
+              </div>
             </div>
-            <div className="flex gap-3">
+            <div className="flex items-center gap-2">
+              <span className="text-sm mr-2" style={{ color: "#8fb3d4" }}>
+                {filtered.length} {filtered.length !== members.length ? `/ ${members.length}` : ""} members
+              </span>
               <button
                 onClick={handlePrintAll}
-                className="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 font-medium"
+                className="px-3 py-1.5 text-sm font-medium border"
+                style={{ color: "#c8a84b", borderColor: "#c8a84b", background: "transparent" }}
+                onMouseEnter={e => { (e.target as HTMLElement).style.background = "rgba(200,168,75,0.1)"; }}
+                onMouseLeave={e => { (e.target as HTMLElement).style.background = "transparent"; }}
               >
-                Print All Cards
+                Print All
               </button>
               <button
-                onClick={() => {
-                  setEditing(null);
-                  setShowForm(true);
-                }}
-                className="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 font-medium"
+                onClick={() => { setEditing(null); setShowForm(true); }}
+                className="px-3 py-1.5 text-sm font-bold"
+                style={{ background: "#c8a84b", color: "#1c3a5e" }}
+                onMouseEnter={e => { (e.target as HTMLElement).style.background = "#d4b45e"; }}
+                onMouseLeave={e => { (e.target as HTMLElement).style.background = "#c8a84b"; }}
               >
                 + Add Member
               </button>
@@ -127,87 +139,93 @@ export default function Dashboard() {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 py-6 sm:px-6">
-        {/* Search & Filters */}
-        <div className="bg-white border border-gray-200 rounded-xl p-4 mb-6 shadow-sm">
-          <div className="flex flex-col sm:flex-row gap-3">
-            <div className="flex-1">
-              <input
-                type="text"
-                placeholder="Search by name, Hebrew name, seat, or year/BM..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="w-full bg-white text-gray-900 border-2 border-gray-300 rounded-lg px-4 py-2.5 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              />
-            </div>
-            <select
-              value={filterYBM}
-              onChange={(e) => setFilterYBM(e.target.value)}
-              className="bg-white text-gray-900 border-2 border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            >
-              <option value="">All Year / Beis Medrash</option>
-              {ybmOptions.map((y) => (
-                <option key={y} value={y}>{y}</option>
-              ))}
-            </select>
-            <select
-              value={showAlumni}
-              onChange={(e) => setShowAlumni(e.target.value as "all" | "current" | "alumni")}
-              className="bg-white text-gray-900 border-2 border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            >
-              <option value="all">All Members</option>
-              <option value="current">Current Only</option>
-              <option value="alumni">Alumni Only</option>
-            </select>
-          </div>
+      <main className="max-w-6xl mx-auto px-5 py-5">
+        {/* Filters */}
+        <div className="flex flex-col sm:flex-row gap-2 mb-5">
+          <input
+            type="text"
+            placeholder="Search name, seat, year..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="flex-1 px-3 py-2 text-sm border border-gray-300"
+            style={{ background: "#fff", color: "#1a1a1a", outline: "none" }}
+            onFocus={e => { (e.target as HTMLElement).style.borderColor = "#1c3a5e"; }}
+            onBlur={e => { (e.target as HTMLElement).style.borderColor = "#d1d5db"; }}
+          />
+          <select
+            value={filterYBM}
+            onChange={(e) => setFilterYBM(e.target.value)}
+            className="px-3 py-2 text-sm border border-gray-300"
+            style={{ background: "#fff", color: "#1a1a1a" }}
+          >
+            <option value="">All Year / BM</option>
+            {ybmOptions.map((y) => (
+              <option key={y} value={y}>{y}</option>
+            ))}
+          </select>
+          <select
+            value={showAlumni}
+            onChange={(e) => setShowAlumni(e.target.value as "all" | "current" | "alumni")}
+            className="px-3 py-2 text-sm border border-gray-300"
+            style={{ background: "#fff", color: "#1a1a1a" }}
+          >
+            <option value="all">All Members</option>
+            <option value="current">Current Only</option>
+            <option value="alumni">Alumni Only</option>
+          </select>
         </div>
 
         {/* Add / Edit Form */}
         {(showForm || editing) && (
-          <div className="bg-white border border-gray-200 rounded-xl p-6 mb-6 shadow-sm">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">{editing ? "Edit Member" : "Add New Member"}</h2>
-            <MemberForm
-              initialData={
-                editing
-                  ? {
-                      first_name: editing.first_name,
-                      last_name: editing.last_name,
-                      hebrew_name: editing.hebrew_name,
-                      father_name: editing.father_name,
-                      seat_number: editing.seat_number,
-                      phone: editing.phone,
-                      notes: editing.notes,
-                      year_beis_medrash: editing.year_beis_medrash,
-                      is_alumni: editing.is_alumni,
-                    }
-                  : undefined
-              }
-              onSubmit={editing ? handleUpdate : handleCreate}
-              onCancel={() => {
-                setShowForm(false);
-                setEditing(null);
-              }}
-              submitLabel={editing ? "Update" : "Add Member"}
-            />
+          <div className="mb-5 border border-gray-300 bg-white" style={{ borderTop: "3px solid #1c3a5e" }}>
+            <div className="px-5 py-3 border-b border-gray-200" style={{ background: "#f8f7f4" }}>
+              <h2 className="font-semibold text-sm uppercase tracking-wider" style={{ color: "#1c3a5e" }}>
+                {editing ? "Edit Member" : "Add New Member"}
+              </h2>
+            </div>
+            <div className="p-5">
+              <MemberForm
+                initialData={
+                  editing
+                    ? {
+                        first_name: editing.first_name,
+                        last_name: editing.last_name,
+                        hebrew_name: editing.hebrew_name,
+                        father_name: editing.father_name,
+                        seat_number: editing.seat_number,
+                        phone: editing.phone,
+                        notes: editing.notes,
+                        year_beis_medrash: editing.year_beis_medrash,
+                        is_alumni: editing.is_alumni,
+                      }
+                    : undefined
+                }
+                onSubmit={editing ? handleUpdate : handleCreate}
+                onCancel={() => { setShowForm(false); setEditing(null); }}
+                submitLabel={editing ? "Save Changes" : "Add Member"}
+              />
+            </div>
           </div>
         )}
 
         {/* Member Grid */}
         {loading ? (
-          <p className="text-gray-500 text-center py-12">Loading...</p>
+          <p className="text-center py-16 text-sm" style={{ color: "#666" }}>Loading...</p>
         ) : filtered.length === 0 ? (
-          <div className="text-center py-16">
-            <p className="text-gray-400 text-lg mb-2">
-              {members.length === 0 ? "No members yet" : "No members match your filters"}
-            </p>
-            <p className="text-gray-400 text-sm">
-              {members.length === 0 ? "Click \"+ Add Member\" to get started" : "Try adjusting your search or filters"}
-            </p>
+          <div className="text-center py-20">
+            <p className="text-gray-400 mb-1">{members.length === 0 ? "No members yet." : "No results."}</p>
+            <p className="text-sm text-gray-400">{members.length === 0 ? 'Click "+ Add Member" to get started.' : "Try a different search or filter."}</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {filtered.map((m) => (
-              <MemberCard key={m.id} member={m} onEdit={(member) => setEditing(members.find((x) => x.id === member.id) || null)} onDelete={handleDelete} onPrint={handlePrint} />
+              <MemberCard
+                key={m.id}
+                member={m}
+                onEdit={(member) => setEditing(members.find((x) => x.id === member.id) || null)}
+                onDelete={handleDelete}
+                onPrint={handlePrint}
+              />
             ))}
           </div>
         )}
