@@ -176,9 +176,17 @@ export default function Dashboard() {
         {/* Add / Edit Form */}
         {(showForm || editing) && (
           <div className="mb-5 border border-gray-300 bg-white" style={{ borderTop: "3px solid #1c3a5e" }}>
-            <div className="px-5 py-3 border-b border-gray-200" style={{ background: "#f8f7f4" }}>
+            <div className="px-5 py-3 border-b border-gray-200 flex items-center gap-3" style={{ background: "#f8f7f4" }}>
+              <button
+                onClick={() => { setShowForm(false); setEditing(null); }}
+                className="text-sm font-medium flex items-center gap-1"
+                style={{ color: "#1c3a5e" }}
+              >
+                ← Back
+              </button>
+              <span style={{ color: "#c8a84b" }}>|</span>
               <h2 className="font-semibold text-sm uppercase tracking-wider" style={{ color: "#1c3a5e" }}>
-                {editing ? "Edit Member" : "Add New Member"}
+                {editing ? `Editing: ${editing.first_name} ${editing.last_name}` : "Add New Member"}
               </h2>
             </div>
             <div className="p-5">

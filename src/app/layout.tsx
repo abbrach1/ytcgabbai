@@ -4,6 +4,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Toras Chaim Gabbai System",
   description: "Toras Chaim Yeshiva - Member Card Management",
+  icons: { icon: "/logo.png" },
 };
 
 export default function RootLayout({
