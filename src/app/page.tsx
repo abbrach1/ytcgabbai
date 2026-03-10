@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useMemo } from "react";
+import Image from "next/image";
 import MemberCard from "@/components/MemberCard";
 import MemberForm from "@/components/MemberForm";
 
@@ -98,16 +99,15 @@ export default function Dashboard() {
       <header style={{ background: "#1c3a5e", borderBottom: "3px solid #c8a84b" }}>
         <div className="max-w-6xl mx-auto px-5 py-4">
           <div className="flex items-center justify-between">
-            <div>
-              <div className="flex items-center gap-3">
-                <div>
-                  <h1 className="text-xl font-bold tracking-wide" style={{ color: "#c8a84b", letterSpacing: "0.05em" }}>
-                    תורת חיים
-                  </h1>
-                  <p className="text-xs font-medium uppercase tracking-widest" style={{ color: "#8fb3d4", letterSpacing: "0.15em" }}>
-                    Gabbai System
-                  </p>
-                </div>
+            <div className="flex items-center gap-3">
+              <Image src="/logo.png" alt="Toras Chaim Logo" width={56} height={56} style={{ filter: "brightness(0) invert(1)" }} />
+              <div>
+                <h1 className="text-xl font-bold tracking-wide" style={{ color: "#c8a84b", letterSpacing: "0.05em" }}>
+                  תורת חיים
+                </h1>
+                <p className="text-xs font-medium uppercase tracking-widest" style={{ color: "#8fb3d4", letterSpacing: "0.15em" }}>
+                  Gabbai System
+                </p>
               </div>
             </div>
             <div className="flex items-center gap-2">
